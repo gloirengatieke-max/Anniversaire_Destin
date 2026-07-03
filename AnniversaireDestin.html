@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyeux Anniversaire Destin - Archi UDSN !</title>
+    <style>
+        /* Base et Ambiance de Chantier Festif */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0e1e38; /* Bleu Blueprint profond */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Grille millimétrée d'architecte en arrière-plan */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(5, 217, 232, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(5, 217, 232, 0.04) 1px, transparent 1px);
+            background-size: 25px 25px;
+            pointer-events: none;
+        }
+
+        /* Canvas pour la pluie de confettis / formes géométriques */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Guirlande de Lampes de Chantier Clignotantes */
+        .guirlande {
+            display: flex;
+            justify-content: space-around;
+            background: #111;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 100%;
+            border-bottom: 2px solid #ff9f43;
+        }
+        .guirlande li {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ffea00;
+            box-shadow: 0px 2px 20px 4px #ffea00;
+            animation: clignotement 1.2s infinite alternate;
+        }
+        .guirlande li:nth-child(even) {
+            background: #05d9e8; /* Cyan technique */
+            box-shadow: 0px 2px 20px 4px #05d9e8;
+            animation-delay: 0.6s;
+        }
+        .guirlande li:nth-child(3n) {
+            background: #ff3838; /* Rouge festif */
+            box-shadow: 0px 2px 20px 4px #ff3838;
+            animation-delay: 0.3s;
+        }
+        @keyframes clignotement {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; filter: brightness(1.3); }
+        }
+
+        /* En-tête : Le Bureau d'Étude en Fête */
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, #132a4f 0%, #0a172c 100%);
+            border-bottom: 6px solid #ff9f43; /* Orange de sécurité/chantier chic */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        /* Grand Titre Effet Plan Néon */
+        .gold-title {
+            font-size: 3.5rem;
+            margin: 0;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #05d9e8 10%, #ffffff 50%, #ff9f43 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 4px 8px rgba(5, 217, 232, 0.5));
+            letter-spacing: 2px;
+        }
+
+        .emojis-festifs {
+            -webkit-text-fill-color: initial;
+            filter: drop-shadow(2px 3px 4px rgba(0,0,0,0.3));
+            font-size: 3.5rem;
+            vertical-align: middle;
+        }
+
+        /* Badge d'Élévation / Âge */
+        .age-badge {
+            font-size: 4.5rem;
+            color: #ff9f43;
+            font-weight: 900;
+            display: inline-block;
+            margin-top: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            transform: scale(1.05) rotate(-1deg);
+            filter: drop-shadow(0px 6px 12px rgba(255, 159, 67, 0.4));
+            animation: bounce 2s infinite alternate;
+        }
+        @keyframes bounce {
+            0% { transform: scale(1) rotate(-1deg); }
+            100% { transform: scale(1.05) rotate(1deg); }
+        }
+
+        /* Conteneur Tableau de Bord (Grid) */
+        .board-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Cartes de Structure */
+        .card {
+            background: rgba(19, 42, 79, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            color: #ffffff;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(5, 217, 232, 0.2);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(5, 217, 232, 0.3);
+            border-color: #05d9e8;
+        }
+
+        h2 {
+            color: #ff9f43;
+            font-size: 1.5rem;
+            border-bottom: 3px dashed rgba(5, 217, 232, 0.4);
+            padding-bottom: 12px;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Compte à rebours */
+        .countdown-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 25px;
+        }
+        .countdown-item {
+            background: #0a172c;
+            border: 2px solid #05d9e8;
+            border-radius: 12px;
+            width: 75px;
+            height: 75px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        .countdown-item span {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #ff9f43;
+        }
+        .countdown-item label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #8892b0;
+            font-weight: bold;
+        }
+
+        /* Section Archi Zone */
+        pre {
+            background: #051329;
+            color: #05d9e8;
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            border-left: 5px solid #ff9f43;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Galerie Polaroid */
+        .polaroid {
+            background: white;
+            padding: 15px 15px 25px 15px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+            border: 1px solid #e2e2e2;
+            color: #333;
+        }
+        .polaroid-caption {
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        /* Formulaire */
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            border: 2px solid #132a4f;
+            border-radius: 8px;
+            resize: none;
+            box-sizing: border-box;
+            background-color: #0a172c;
+            color: white;
+            font-size: 0.95rem;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #05d9e8;
+        }
+        button {
+            background: linear-gradient(45deg, #ff9f43, #ff5252);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 12px;
+            width: 100%;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 15px rgba(255, 159, 67, 0.3);
+        }
+        button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 7px 20px rgba(255, 159, 67, 0.5);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #8892b0;
+            font-weight: bold;
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <ul class="guirlande">
+        <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+    </ul>
+
+    <header>
+         <h1 class="gold-title">
+            <span>Joyeux Anniversaire Destin</span>
+            <span class="emojis-festifs">📐🏛️🏗️🎉🔥!</span>
+        </h1>
+        <div class="age-badge">VUE EN PLAN : 20 ANS</div>
+        <p style="font-size: 1.2rem; color: #8892b0; margin-top: 10px; font-weight: bold;">✨ Édification de la version 2.0 débloquée ! ✨</p>
+    </header>
+
+    <main class="board-container">
+
+        <section class="card">
+            <h2>⏳ Planning de Livraison (J-J)</h2>
+            <p>Inauguration officielle du projet de vie de Destin :</p>
+            <div class="countdown-container">
+                <div class="countdown-item"><span id="days">00</span><label>Jours</label></div>
+                <div class="countdown-item"><span id="hours">00</span><label>Heures</label></div>
+                <div class="countdown-item"><span id="minutes">00</span><label>Min</label></div>
+                <div class="countdown-item"><span id="seconds">00</span><label>Sec</label></div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🏗️ Spécifications Techniques // UDSN</h2>
+            <p>Analyse de la structure porteuse du profil étudiant :</p>
+            <pre><code>📐 Spécifications : Destin
+🏢 Domaine : Architecture & Urbanisme
+⚡ Statut : Futur Maître d'Œuvre
+🔥 Propriété RDM : Résistance maximale aux pannes d'inspiration !
+
+si (année === 2026) {
+    Célébrer_Anniversaire();
+    Béton_Armé_Activé();
+}</code></pre>
+        </section>
+
+        <section class="card" style="grid-column: 1 / -1;"> 
+            <h2>🎬 Maquettes & Souvenirs de la Team</h2>
+            <p>Les fondations de notre amitié depuis la terminale ! 🤙</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px;">
+                
+                <div class="polaroid" style="transform: rotate(1deg);">
+                    <div style="width: 100%; border-radius: 4px; overflow: hidden; background: #000;">
+                        <video controls style="width: 100%; display: block; max-height: 250px; object-fit: contain;">
+                            <source src="Souvenir Destin.mp4" type="video/mp4">
+                            Vidéo souvenir absente
+                        </video>
+                    </div>
+                    <div class="polaroid-caption">L'archi en plein calcul 📏</div>
+                </div>
+
+                <div class="polaroid" style="transform: rotate(-1.5deg);">
+                    <div style="width: 100%; padding-bottom: 125%; background-image: url('photo-destin1.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-color: #ccc;">
+                    </div>
+                    <div class="polaroid-caption">La team Terminale C ⚡</div>
+                </div>
+
+                <div class="polaroid" style="transform: rotate(2deg);">
+                    <div style="width: 100%; padding-bottom: 125%; background-image: url('photo-destin2.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-color: #ccc;">
+                    </div>
+                    <div class="polaroid-caption">Toujours au top ! 🏗️</div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>✍️ Permis de Célébrer // Livre d'Or</h2>
+            <p>Ajoute ta brique à l'édifice pour ses 20 ans :</p>
+            <textarea id="guestbook-input" placeholder="Joyeux anniversaire Destin ! 🎉 Force à toi pour tes projets à l'UDSN. Que cette année soit pleine de belles structures et de réussite ! 📐🏢"></textarea>
+            <button onclick="ajouterMessage()">Poser ma brique 🎉</button>
+            
+            <div id="messages-box" style="margin-top: 15px; max-height: 200px; overflow-y: auto;">
+                <div style="background: #0a172c; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 3px solid #05d9e8;">
+                    <strong>Idrss :</strong> Force au meilleur architecte de sa génération ! HBD bro 🚀
+                </div>
+                <div style="background: #0a172c; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 3px solid #05d9e8;">
+                    <strong>Sarah :</strong> Joyeux anniversaire Destin, fête ça bien ! 🥂
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Créé avec passion pour Destin — Murielle Gloire NGATSEKE 🚀</p>
+    </footer>
+
+    <script>
+        // --- LOGIQUE DU COMPTE À REBOURS ---
+        // Tu pourras ajuster la date exacte ici si besoin !
+        function updateCountdown() {
+            const targetDate = new Date("July 23, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+                document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+                document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+            } else {
+                document.querySelector(".countdown-container").innerHTML = "<h3 style='color:#ff9f43;'>🎉 C'EST LE JOUR J ! PROJET 20 ANS DEPLOYÉ ! 🎉</h3>";
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // --- LOGIQUE DU LIVRE D'OR ---
+        function ajouterMessage() {
+            const input = document.getElementById("guestbook-input");
+            const box = document.getElementById("messages-box");
+            if(input.value.trim() !== "") {
+                const nouveauMessage = document.createElement("div");
+                nouveauMessage.style.background = "#0a172c";
+                nouveauMessage.style.padding = "10px";
+                nouveauMessage.style.marginBottom = "8px";
+                nouveauMessage.style.borderRadius = "5px";
+                nouveauMessage.style.borderLeft = "3px solid #ff9f43";
+                nouveauMessage.innerHTML = `<strong>Pote :</strong> ${input.value}`;
+                box.appendChild(nouveauMessage);
+                input.value = "";
+                box.scrollTop = box.scrollHeight;
+            }
+        }
+
+        // --- ANIMATION DES CONFETTIS EN FORME DE CORNIÈRES ET CARRÉS ---
+        const canvas = document.getElementById("confetti-canvas");
+        const ctx = canvas.getContext("2d");
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const confettis = [];
+        const colors = ["#05d9e8", "#ff9f43", "#ffea00", "#ff5252", "#ffffff"];
+
+        window.addEventListener("resize", () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height - height;
+                this.size = Math.random() * 7 + 5;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.speed = Math.random() * 3 + 2;
+                this.angle = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+                this.shape = Math.random() > 0.5 ? "square" : "triangle"; // Formes géométriques pour l'archi !
+            }
+            update() {
+                this.y += this.speed;
+                this.angle += this.rotationSpeed;
+                if (this.y > height) {
+                    this.y = -20;
+                    this.x = Math.random() * width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                
+                if (this.shape === "square") {
+                    ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                } else {
+                    ctx.beginPath();
+                    ctx.moveTo(0, -this.size/2);
+                    ctx.lineTo(this.size/2, this.size/2);
+                    ctx.lineTo(-this.size/2, this.size/2);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 75; i++) {
+            confettis.push(new Confetti());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            confettis.forEach(c => {
+                c.update();
+                c.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
